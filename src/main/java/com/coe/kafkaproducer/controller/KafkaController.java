@@ -34,4 +34,13 @@ public class KafkaController {
         kafkaIdCustomerTemplate.send("customer-delete-topic", idCustomer);
         return "Customer delete published successfully";
     }
+
+    @PutMapping("/status/{idCustomer}/{status}")
+    public String statusCustomer(@PathVariable("idCustomer") int idCustomer, @PathVariable("status") String status) {
+        Customer aux = new Customer();
+        aux.setStatus(status.toUpperCase());
+        aux.setId(idCustomer);
+        kafkaUserTemplate.send("customer-status-topic", aux);
+        return "Customer status published successfully";
+    }
 }
